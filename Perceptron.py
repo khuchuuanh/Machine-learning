@@ -41,16 +41,6 @@ def perceptron(X, y, w_init):
             break
     return (w, mis_points)
 
-
-mix_id = np.random.permutation(20)
-print(mix_id)
-print(X)
-xi = X[:, mix_id[0]].reshape(3, 1)
-yi = y[0, mix_id[0]]
-print(xi)
-print(yi)
-
-
 d = X.shape[0]
 w_init = np.random.randn(d, 1)
 (w, m) = perceptron(X, y, w_init)
