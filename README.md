@@ -9,7 +9,7 @@ Here is my pyhton source code about implementing machine learning algorithms abo
   <img src="image/file.png" width="400">
 </p>
 
-### Logistic regression
+#### Logistic regression
 <p align="center">
   <img src="image/logistic.gif" width="400">
 </p>
