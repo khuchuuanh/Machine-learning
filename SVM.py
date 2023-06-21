@@ -7,11 +7,16 @@ from sklearn.svm import SVC
 
 means = [[2,2],[4,2]]
 cov = [[.3,.2],[.2,.3]]
+#print(means)
+#print(cov)
 
 N = 10
 X0 = np.random.multivariate_normal(means[0], cov, N)
 X1 = np.random.multivariate_normal(means[1], cov,N)
 X  = np.concatenate((X0.T, X1.T), axis =1)
+print('X0', X0)
+print(X1)
+
 
 y = np.concatenate((np.ones((1,N)), -1*np.ones((1,N))), axis = 1)
 
@@ -21,12 +26,13 @@ p = matrix(-np.ones((2*N, 1)))
 G = matrix(-np.eye(2*N))
 h = matrix(np.zeros((2*N, 1)))
 A = matrix(y)
-b = matrix(np.zeros(1,1))
+b = matrix(np.zeros((1,1)))
 solvers.options['show_progress'] = False
 sol = solvers.qp(K, p, G, h, A, b)
 l = np.array(sol['x'])
-print('lambda = ')
-print(l.T)
+
+#print('lambda = ')
+#print(l.T)
 
 epsilon = 1e-6
 S = np.where(1 >epsilon)[0]
@@ -34,6 +40,8 @@ VS = V[:,S]
 XS = X[:,S]
 yS = y[:,S]
 lS = l[S]
+
+print(VS)
 
 w = VS.dot(lS)
 b = np.mean(yS.T - w.T.dot(XS))
