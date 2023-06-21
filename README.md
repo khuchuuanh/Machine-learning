@@ -1,8 +1,6 @@
 # Machine-learning
 ## Introduction
-Here is my pyhton source code about implementing machine learning algorithms about supervised learning and unsupervised learning. I also used several kaggle dataset to practice with machine learning algorithms.
-
-
+Here is my python source code about implementing machine learning algorithms about supervised learning and unsupervised learning. I also used several kaggle datasets to practice with machine learning algorithms. I used to some basic techniques for data science including : Data visualization, Data pipeline, Data preprocess, Way to choose best parameters as well as best model for data.
 
 #### Linear regression
 <p align="center">
