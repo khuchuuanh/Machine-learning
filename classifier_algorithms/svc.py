@@ -2,12 +2,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pandas.plotting import scatter_matrix
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, confusion_matrix
 import pickle
-
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.compose import ColumnTransformer
+from lazypredict.Supervised import LazyClassifier
 
 df = pd.read_csv('diabetes.csv')
 
@@ -60,29 +63,30 @@ x = df.drop(target, axis= 1)
 
 x_train, x_test, y_train, y_test = train_test_split(x,y, test_size=0.2, random_state= 42)
 
-sc = StandardScaler()
+num_transformer = Pipeline(steps=[
+    ("imputer", SimpleImputer(strategy="mean")),
+    ("scaler", StandardScaler())
+])
 
-x_train = sc.fit_transform(x_train)
-x_test = sc.transform(x_test)
 
-pram_grid = {
-    'C' : [1,2,3],
-    'kernel' : ['linear', 'poly', 'rbf','sigmoid', 'precomputed'],
-    'degree' : [2,3],
-    'gamma' : ['scale', 'auto'],
-    'coef0' : [0.5,1.0],
-    'shrinking' : ['True','False'],
-    'probability' : ['True','False'],
-    'tol' : [1e-3, 1e-4],
-    'max_iter' : [100, -1],
-    'decision_function_shape' : ['ovo','ovr'],
-    'break_ties' : ['True', 'False']
+preprocess = ColumnTransformer(transformers=[
+    ('num_feature', num_transformer, ["Pregnancies","Glucose","BloodPressure","SkinThickness","Insulin","BMI","DiabetesPedigreeFunction","Age"])
+])
+
+cls = Pipeline(steps=[
+    ("preprocess", preprocess), 
+    ('model', SVC())
+])
+
+param_grid = {
+    'model__C': [1, 2, 3],
+    'model__kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
+    "preprocess__num_feature__imputer__strategy": ['mean', 'median']
 }
 
-cls = GridSearchCV(SVC(random_state= 42), param_grid= pram_grid )
-
-cls = SVC()
-cls.fit(x_train, y_train)
+cls_cv = GridSearchCV(cls, param_grid, verbose= 1, n_jobs=4, scoring="accuracy",cv = 6)
+#cls = SVC()
+cls_cv.fit(x_train, y_train)
 # save model using pickle
 #pickle.dump(cls, open('svc_model.pkl', 'wb')) # wr: write binary
 
@@ -90,17 +94,19 @@ cls.fit(x_train, y_train)
 #model = pickle.load(open('svc_model.pkl', 'rb'))
 #y_predict = model.predict(x_test)
 
-y_predict = cls.predict(x_test)
+y_predict = cls_cv.predict(x_test)
 
 
-# for i, j in  zip(y_test, y_predict):
-#     print('y_true',i, 'y_pred', j)
+print(cls_cv.best_estimator_)
+print(cls_cv.best_score_)
+print(cls_cv.best_params_)
 
 
-print(cls.class_weight_)
-print(cls.classes_)
+for i, j in  zip(y_test, y_predict):
+    print('y_true',i, 'y_pred', j)
 
-print(cls.n_iter_)
+
+
 # print(cls.support_)
 # print(cls.support_vectors_)
 # classifier report
