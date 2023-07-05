@@ -3,7 +3,7 @@
 Here is my python source code about implementing machine learning algorithms including supervised learning and unsupervised learning. I also used several kaggle datasets like tranditional datasets and time series datasets to practice with machine learning algorithms. I used to some basic techniques for data science including : Data visualization, data cleaning, data preprocessing, way to choose best parameters as well as best model for data.
 
 #### Real data
-I got a real dataset which was very dirty data. I cleaned this data and preprocess after that choosing appropriate machine learning models.
+I got a real dataset which was very dirty data. I cleaned this data and preprocess after that choosing appropriate machine learning models to predict the career level for each candidate.
 <p align="center">
   <img src="image/dirty_data.png" width="400">
 </p>
