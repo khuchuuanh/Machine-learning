@@ -8,16 +8,16 @@ I got a real dataset which was very dirty data. I cleaned this data and preproce
   <img src="image/dirty_data.png" width="400">
 </p>
 
+#### PCA
+I learned and used PCA algorithms to reduce and visualization MNIST dataset.
+<p align="center">
+  <img src="image/3d_plot.png" width="400">
+</p>
+
 #### Logistic regression
 I learned and implemented logistic algorithm.
 <p align="center">
   <img src="image/logistic.gif" width="400">
-</p>
-
-#### K-means clustering
-I learned and implemented K-mean algorithm.
-<p align="center">
-  <img src="image/K-means.png" width="400">
 </p>
 
 #### Gradient descent
